@@ -1,0 +1,166 @@
+@import "tailwindcss";
+
+/* 暖米白触觉拟物设计系统。--site-* 是工作台可调参数，默认值即设计规范。 */
+:root {
+  --site-bg: #f7f4ee;
+  --site-fg: #1e242b;
+  --site-accent: #e5a00d;
+  --site-on-accent: #1e242b;
+  --site-surface: #fffdf9;
+  --site-muted: #525b66;
+  --site-border: #e5dfd3;
+  --site-font: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui,
+    sans-serif;
+  --site-radius: 16px;
+  --site-space: 1;
+  --site-type: 1;
+  --site-motion: 1;
+
+  /* 无障碍语义色：焦点与警示不参与外观调节，避免对比度被调低。 */
+  --tl-focus: #1d4ed8;
+  --tl-warn-bg: #fef3c7;
+  --tl-warn-border: #d97706;
+  --tl-warn-fg: #92400e;
+  --tl-lights-off: #111418;
+
+  --tl-amber-edge: #b87f0a;
+  --tl-card-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  --tl-card-shadow: 0 4px 14px rgba(30, 36, 43, 0.06);
+
+  /* 核对状态机三态与鼠尾草绿完成态。 */
+  --tl-edited-bg: #eff6ff;
+  --tl-ok-bg: #ecfdf5;
+  --tl-ok-fg: #065f46;
+  --tl-ok-border: #a7f3d0;
+}
+
+@theme inline {
+  --color-paper: var(--site-bg);
+  --color-surface: var(--site-surface);
+  --color-ink: var(--site-fg);
+  --color-ink-soft: var(--site-muted);
+  --color-amber: var(--site-accent);
+  --color-on-amber: var(--site-on-accent);
+  --color-amber-edge: var(--tl-amber-edge);
+  --color-cobalt: var(--tl-focus);
+  --color-line: var(--site-border);
+  --color-warn-bg: var(--tl-warn-bg);
+  --color-warn-border: var(--tl-warn-border);
+  --color-warn-fg: var(--tl-warn-fg);
+  --color-lights-off: var(--tl-lights-off);
+  --color-edited-bg: var(--tl-edited-bg);
+  --color-ok-bg: var(--tl-ok-bg);
+  --color-ok-fg: var(--tl-ok-fg);
+  --color-ok-border: var(--tl-ok-border);
+
+  --radius-tactile: var(--site-radius);
+  --font-sans: var(--site-font);
+
+  --spacing: calc(0.25rem * var(--site-space));
+  --text-xs: calc(0.75rem * var(--site-type));
+  --text-sm: calc(0.875rem * var(--site-type));
+  --text-base: calc(1rem * var(--site-type));
+  --text-lg: calc(1.125rem * var(--site-type));
+  --text-xl: calc(1.25rem * var(--site-type));
+  --text-2xl: calc(1.5rem * var(--site-type));
+  --text-3xl: calc(1.875rem * var(--site-type));
+  --text-4xl: calc(2.25rem * var(--site-type));
+
+  --default-transition-duration: calc(180ms * var(--site-motion));
+}
+
+@utility tactile-card {
+  border-radius: var(--site-radius);
+  border: 1px solid var(--site-border);
+  background: var(--site-surface);
+  box-shadow: var(--tl-card-highlight), var(--tl-card-shadow);
+}
+
+@layer base {
+  body {
+    background: var(--site-bg);
+    color: var(--site-fg);
+    font-family: var(--site-font);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      transition-duration: 0ms !important;
+      animation-duration: 0ms !important;
+    }
+  }
+}
+
+/* 译码台：逐块浮现与琥珀光束扫描。 */
+@keyframes tl-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes tl-scan {
+  from {
+    top: -30%;
+  }
+  to {
+    top: 115%;
+  }
+}
+
+@utility tl-rise {
+  animation: tl-rise calc(420ms * var(--site-motion)) cubic-bezier(0.2, 0.7, 0.3, 1)
+    both;
+}
+
+@utility tl-scan-beam {
+  animation: tl-scan calc(500ms * var(--site-motion)) linear both;
+}
+
+/* 01 熄灯摸物：单次扩散波纹，不循环、不频闪。 */
+@keyframes so-ripple-ridge {
+  from {
+    transform: translate(-50%, -50%) scale(0.35);
+    opacity: 0.85;
+  }
+  to {
+    transform: translate(-50%, -50%) scale(1.6);
+    opacity: 0;
+  }
+}
+
+@keyframes so-ripple-smooth {
+  from {
+    transform: translate(-50%, -50%) scale(0.5);
+    opacity: 0.5;
+  }
+  to {
+    transform: translate(-50%, -50%) scale(1.9);
+    opacity: 0;
+  }
+}
+
+@utility so-ripple-ridge {
+  animation: so-ripple-ridge 520ms ease-out both;
+}
+
+@utility so-ripple-smooth {
+  animation: so-ripple-smooth 700ms ease-out both;
+}
+
+/* 02 错位路口：SVG 站名/线号在窄屏放大，保证缩放后仍可读。 */
+.subway-label {
+  font-size: 16px;
+}
+@media (max-width: 640px) {
+  .subway-label {
+    font-size: 26px;
+  }
+}
